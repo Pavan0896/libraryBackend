@@ -10,11 +10,12 @@ const port = process.env.PORT;
 
 const app = express();
 app.use(express.json());
+app.use(cors());
 app.use(morgan(logFormat, { stream: accessLogStream }));
 app.use(middleware);
 app.use("/user", userRouter);
 app.use("/library", libRouter);
-app.use(cors());
+
 
 app.get("/", (req, res) => {
   res.send("Health check is fine");
