@@ -21,7 +21,7 @@ libRouter.get("/books", auth, async (req, res) => {
     const books = await BookModel.find();
     res.send(books);
   }
-  if (role.includes("viewer")) {
+  if (role.includes("creator")) {
     const books = await BookModel.find({ user_id });
     res.send(books);
   }
