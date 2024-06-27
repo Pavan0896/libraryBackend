@@ -6,6 +6,7 @@ const libRouter = express.Router();
 
 libRouter.post("/books", auth, async (req, res) => {
   const { title, author, price, role, user_id } = req.body;
+ 
   if (role.includes("creator")) {
     const book = new BookModel({ title, author, price, user_id });
     await book.save();
@@ -31,17 +32,16 @@ libRouter.delete("/delete/:id", auth, async (req, res) => {
   const { role, user_id } = req.body;
   const id = req.params.id;
   if (role.includes("creator")) {
-    const books = await BookModel.deleteOne({ _id: id });
+    await BookModel.deleteOne({ _id: id });
     res.status(200).send({"msg":"Book deleted from DB successfully"});
   }
 });
 
-libRouter.get("/books", auth, async (req, res) => {
+libRouter.get("/view", auth, async (req, res) => {
   const query = req.query;
   try {
     const currentTime = new Date();
     const tenMinutesAgo = new Date(currentTime.getTime() - 10 * 60 * 1000);
-
     if (query.old) {
       const oldBooks = await BookModel.find({
         createdAt: {
