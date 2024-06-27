@@ -33,7 +33,7 @@ const login = async (req, res) => {
           { email: user.email, name: user.userName, role: user.role, id:user._id},
           process.env.JWT_SECRET
         );
-        res.status(200).send({ msg: "Login successful", token: token });
+        res.status(200).send({ msg: "Login successful", token: token, role: user.role });
       } else {
         res.send({"msg":"Wrong password"});
       }
